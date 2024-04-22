@@ -5,77 +5,14 @@
 #include <math.h>
 #include <stdlib.h>
 #include "multy_array.h"
+#include "getMax.h"
+#include "jacobi.h"
 
 #define Err 1e-4
 
 typedef double T;
 
-T getMax(T** C_matrix,int M,int &ii,int &jj)
-{
-	T rmax = C_matrix[0][1];
-	ii = 0;
-	jj = 1;
-	for(int i = 0;i<M;i++)
-		for(int j =0;j<M;j++)
-			if(i!=j)
-				if(fabs(C_matrix[i][j])>rmax)
-				{
-					rmax = fabs(C_matrix[i][j]);
-					ii = i;
-					jj = j;
-				}
-	return rmax;
-}
 
-T** Jacobi(T** C_matrix,int M,int ii,int jj,T rPhi)
-{
-	T** Temp = (T**)malloc(M*sizeof(T*));
-	for(int i = 0;i<M;i++)
-		Temp[i] = (T*)malloc(M*sizeof(T));
-	for(int i = 0;i<M;i++)
-		for(int j = 0; j<M;j++)
-		{
-			Temp[i][j] = C_matrix[i][j];
-			C_matrix[i][j] = (T)0;
-		}
-	T rSp = sin(rPhi);
-	T rCp = cos(rPhi);
-//	 multy 3 matrix
-	for(int i = 0;i<M;i++)
-		for(int j = 0;j<M;j++)
-			if(i == ii) // row i
-				if(j == ii) 
-					C_matrix[i][j] = Temp[ii][ii]*rCp*rCp + Temp[jj][jj]*rSp*rSp + 2*Temp[ii][jj]*rCp*rSp;
-				else 
-					if(j == jj) 
-						C_matrix[i][j] = (Temp[jj][jj]-Temp[ii][ii])*rSp*rCp + Temp[ii][jj]*(rCp*rCp-rSp*rSp);
-					else 
-						C_matrix[i][j] = Temp[ii][j]*rCp+Temp[jj][j]*rSp;
-					 
-			else 
-				if(i == jj)  // row j
-					if(j == ii)  
-						C_matrix[i][j] = (Temp[jj][jj]-Temp[ii][ii])*rSp*rCp + Temp[ii][jj]*(rCp*rCp-rSp*rSp);
-					else 
-						if(j == jj) 
-							C_matrix[i][j] = Temp[ii][ii]*rSp*rSp + Temp[jj][jj]*rCp*rCp - 2*Temp[ii][jj]*rCp*rSp;
-					 	else 
-						 	C_matrix[i][j] = Temp[jj][j]*rCp-Temp[ii][j]*rSp;
-				else	// row l!=i,j
-					if(j == ii) 
-						C_matrix[i][j] = Temp[ii][i]*rCp+Temp[jj][i]*rSp;
-					else 
-						if(j ==jj) 
-							C_matrix[i][j] = Temp[jj][i]*rCp-Temp[ii][i]*rSp;
-						else 
-							C_matrix[i][j] = Temp[i][j];
-	
-	for(int k = 0;k<M;k++)
-		free(Temp[k]);
-	free(Temp);
-	
-	return C_matrix;
-}
 
 T** Eigenvecto_Eigenvalue(T** C_matrix,int M,T** Eigenvecto,T* Eigenvalue)
 {

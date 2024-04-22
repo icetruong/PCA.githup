@@ -68,7 +68,6 @@ T** PCA(T** Data,int N,int M,int &K)
 	}
 	else
 		Eigenvecto = Eigenvecto_Eigenvalue(C_matrix,N,Eigenvecto,Eigenvalue);
-		
 	K = shorteneigenvalue(Eigenvalue,N);
 	T** NewData = (T**) malloc(K*sizeof(T*));
 	for(int i = 0;i<K;i++)
@@ -76,12 +75,10 @@ T** PCA(T** Data,int N,int M,int &K)
 	Eigenvectot = invert_array(Eigenvecto,N,M);
 	NewData = multy_array(Eigenvectot,TempData,K,N,M);
 	free(X);
-	free(TempData);
 	free(TempDatat);
 	free(C_matrix);
 	free(A_At_matrix);
 	free(Eigenvecto);
-	free(Eigenvectot);
 	free(Eigenvalue);
 	free(Temp_Eigenvecto);
 	return NewData;
