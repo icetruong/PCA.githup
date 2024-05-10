@@ -9,6 +9,16 @@
 
 typedef double T;
 
+void printArray2(T** a,int N,int M)
+{
+	for(int i = 0; i<N;i++)
+	{
+		for(int j = 0; j<M;j++)
+		printf("%10.4f ",a[i][j]);
+	printf("\n");
+	}
+}
+
 T** multy_array(T** a,T** b,int n,int m,int k)
 {
 	T** c = (T**)malloc(n*sizeof(T*));
@@ -297,4 +307,6 @@ T** PCA(T** Data,int N,int M,int &K)
 	NewData = multy_array(Eigenvectot,TempData,K,N,M);
 	return NewData;
 }
+
+
 #endif

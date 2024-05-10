@@ -25,4 +25,19 @@ void readfile(T** &a,int &n,int &m)
 	fclose(fptr);
 }
 
+void writefile(int** a,int n,int m)
+{
+	FILE *fptr;
+	fptr = fopen("caseRandom.txt","w");
+	fprintf(fptr,"%d %d ",n,m);
+	fprintf(fptr,"\n");
+	for (int i = 0; i < n; i++) 
+	{
+		for (int j = 0; j < m; j++) 
+        	fprintf(fptr, "%5d ", a[i][j]);
+        fprintf(fptr,"\n");
+	}
+    fclose(fptr);
+}
+
 #endif
