@@ -18,9 +18,10 @@ int main()
 	for(int i = 0;i<N;i++)
 		newData[i] = (T*)malloc(N*sizeof(T*));
 	newData = PCA(data,N,M,K);
-	for(int i = 0; i<K;i++){
-			for(int j = 0; j<M;j++)
-			printf("%10.4f ",newData[i][j]);
+	for(int i = 0; i<K;i++)
+	{
+		for(int j = 0; j<M;j++)
+		printf("%10.4f ",newData[i][j]);
 	printf("\n");
 	}
 }
