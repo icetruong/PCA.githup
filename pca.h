@@ -1,13 +1,19 @@
 #ifndef PCA_H
 #define PCA_H
 
-#include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
-
 #define Err 1e-4
 
 typedef double T;
+
+void printArray1(T* a,int n)
+{
+	for(int i = 0;i<n;i++)
+	{
+		printf("%10.4f ",a[i]);
+		printf("\n");
+	}
+		
+}
 
 void printArray2(T** a,int N,int M)
 {
@@ -17,6 +23,24 @@ void printArray2(T** a,int N,int M)
 		printf("%10.4f ",a[i][j]);
 	printf("\n");
 	}
+}
+
+void readfile(T** &a,int &n,int &m)
+{
+	FILE *fptr;
+	char x[10];
+	printf("nhap case ban muon test: ");
+	gets(x);
+	strcat(x,".txt");
+	fptr = fopen(x, "r");
+	fscanf(fptr, "%d %d", &n, &m); 
+	a = (T**)malloc(n*sizeof(T*));
+	for(int i = 0;i<n;i++)
+		a[i] = (T*)malloc(m*sizeof(T*));
+	for (int i = 0; i < n; i++) 
+        for (int j = 0; j < m; j++) 
+        	fscanf(fptr, "%lf", &a[i][j]);
+	fclose(fptr);
 }
 
 T** multy_array(T** a,T** b,int n,int m,int k)
@@ -287,18 +311,35 @@ T** PCA(T** Data,int N,int M,int &K)
 	}
 	//calculation
 	X = average_vecto(Data,N,M);
+	printf("\nGia tri trung binh: \n\n");
+	printArray1(X,N);
 	TempData = datanew_vecto(Data,X,N,M);
+	printf("\n bo du lieu moi: \n\n");
+	printArray2(TempData,N,M);
 	TempDatat = invert_array(TempData,N,M);
 	C_matrix = covar_matrix(TempData,TempDatat,N,M);
+	printf("\nMa tran hiep phuong sai: \n\n");
+	printArray2(C_matrix,N,N);
 	if(N>M) 
 	{	
 		A_At_matrix = covar_matrix(TempDatat,TempData,M,N);
 		Temp_Eigenvecto = Eigenvecto_Eigenvalue(A_At_matrix,M,Temp_Eigenvecto,Eigenvalue);
 		Eigenvecto = multy_array(TempData,Temp_Eigenvecto,N,M,M);
 		Eigenvecto = normalize(Eigenvecto,N,M);
+		printf("\nEigenvecto: \n\n");
+		printArray2(Eigenvecto,M,M);
+		printf("\nEigenvalue: \n\n");
+		printArray1(Eigenvalue,M);
 	}
 	else
+	{
 		Eigenvecto = Eigenvecto_Eigenvalue(C_matrix,N,Eigenvecto,Eigenvalue);
+		printf("\nEigenvecto: \n\n");
+		printArray2(Eigenvecto,N,N);
+		printf("\nEigenvalue: \n\n");
+		printArray1(Eigenvalue,N);
+	}
+		
 	K = shorteneigenvalue(Eigenvalue,N);
 	T** NewData = (T**) malloc(K*sizeof(T*));
 	for(int i = 0;i<K;i++)

@@ -1,9 +1,23 @@
 #include <stdio.h>
 #include <time.h>
-#include "work_with_file.h"
 
 #define MIN 0
 #define MAX 255
+
+void writefile(int** a,int n,int m)
+{
+	FILE *fptr;
+	fptr = fopen("caseRandom.txt","w");
+	fprintf(fptr,"%d %d ",n,m);
+	fprintf(fptr,"\n");
+	for (int i = 0; i < n; i++) 
+	{
+		for (int j = 0; j < m; j++) 
+        	fprintf(fptr, "%5d ", a[i][j]);
+        fprintf(fptr,"\n");
+	}
+    fclose(fptr);
+}
 
 void make_random_array(int** a,int n,int m)
 {
