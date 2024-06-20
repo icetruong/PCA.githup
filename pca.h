@@ -11,8 +11,7 @@ void printArray1(T* a,int n)
 	{
 		printf("%10.4f ",a[i]);
 		printf("\n");
-	}
-		
+	}		
 }
 
 void printArray2(T** a,int N,int M)
@@ -29,7 +28,7 @@ void readfile(T** &a,int &n,int &m)
 {
 	FILE *fptr;
 	char x[10];
-	printf("nhap case ban muon test: ");
+	printf("Nhap case ban muon test: ");
 	gets(x);
 	strcat(x,".txt");
 	fptr = fopen(x, "r");
@@ -41,6 +40,36 @@ void readfile(T** &a,int &n,int &m)
         for (int j = 0; j < m; j++) 
         	fscanf(fptr, "%lf", &a[i][j]);
 	fclose(fptr);
+}
+
+void write_file(T** Eigenvecto,T* Eigenvalue,T** newData,int K,int N,int M)
+{
+	system("color 70");
+	FILE *fptr;
+	char x[10];
+	printf("\nNhap ten file ban muon ghi (.txt)");
+	gets(x);
+	strcat(x,".txt");
+	fptr = fopen(x, "w");
+	fprintf(fptr, "Eigenvecto: \n");
+	for(int i = 0;i<N;i++)
+	{
+		for(int j = 0;j<K;j++)
+			fprintf(fptr, "%10.3lf",Eigenvecto[i][j]);
+		fprintf(fptr, "\n");
+	}
+	fprintf(fptr, "Eigenvalue: \n");
+	for(int i = 0;i<K;i++)
+		fprintf(fptr, "%10.3lf",Eigenvalue[i]);
+	fprintf(fptr, "\n");
+	
+	fprintf(fptr, "newData: \n");
+	for(int i = 0;i<K;i++)
+	{
+		for(int j = 0;j<M;j++)
+			fprintf(fptr, "%10.3lf",newData[i][j]);
+		fprintf(fptr, "\n");
+	}	
 }
 
 T** multy_array(T** a,T** b,int n,int m,int k)
@@ -314,7 +343,7 @@ T** PCA(T** Data,int N,int M,int &K)
 	printf("\nGia tri trung binh: \n\n");
 	printArray1(X,N);
 	TempData = datanew_vecto(Data,X,N,M);
-	printf("\n bo du lieu moi: \n\n");
+	printf("\nBo du lieu moi: \n\n");
 	printArray2(TempData,N,M);
 	TempDatat = invert_array(TempData,N,M);
 	C_matrix = covar_matrix(TempData,TempDatat,N,M);
@@ -346,6 +375,7 @@ T** PCA(T** Data,int N,int M,int &K)
 		NewData[i] = (T*) malloc(M*sizeof(T));
 	Eigenvectot = invert_array(Eigenvecto,N,M);
 	NewData = multy_array(Eigenvectot,TempData,K,N,M);
+	write_file(Eigenvecto,Eigenvalue,NewData,K,N,M);
 	return NewData;
 }
 

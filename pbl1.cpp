@@ -13,16 +13,16 @@ int main()
 	printf("<---- De tai: Su dung Eigenface de phan tich cac thanh phan PCA ---->\n\n");
 	printf("<----------- Giao vien huong dan: Nguyen Tan Khoi ------------------>\n\n");
 	printf("<-------------------->                           <-------------------->\n\n\n\n");
-	int N,M,K,random;
+	int N,M,K;
 	T** data;
 	readfile(data,N,M);
-	printf("bo du lieu ban dau: \n");
+	printf("\nBo du lieu ban dau: \n");
 	printArray2(data,N,M);
 	
 	T** newData = (T**)malloc(N*sizeof(T*));
 	for(int i = 0;i<N;i++)
 		newData[i] = (T*)malloc(N*sizeof(T*));
 	newData = PCA(data,N,M,K);
-	printf("\nbo du lieu sau khi bien doi la: \n\n");
+	printf("\nBo du lieu sau khi bien doi la: \n\n");
 	printArray2(newData,K,M);
 }
