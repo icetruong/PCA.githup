@@ -375,7 +375,7 @@ T** PCA(T** Data,int N,int M,int &K)
 		NewData[i] = (T*) malloc(M*sizeof(T));
 	Eigenvectot = invert_array(Eigenvecto,N,M);
 	NewData = multy_array(Eigenvectot,TempData,K,N,M);
-	write_file(Eigenvecto,Eigenvalue,NewData,K,N,M);
+//	write_file(Eigenvecto,Eigenvalue,NewData,K,N,M);
 	return NewData;
 }
 

@@ -25,4 +25,6 @@ int main()
 	newData = PCA(data,N,M,K);
 	printf("\nBo du lieu sau khi bien doi la: \n\n");
 	printArray2(newData,K,M);
+	
+	return 0;
 }
